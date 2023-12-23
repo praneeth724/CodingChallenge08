@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PowerUpscript : MonoBehaviour
+{
+    public float speed;
+    public GameObject PowerUp;
+    public float changeDuration = 4f;
+
+  
+
+    // Update is called once per frame
+    void Update()
+    {
+        moveGameObjecct();
+    }
+
+    void moveGameObjecct()
+    {
+        float xinput = Input.GetAxis("Horizontal");
+        float yinput = Input.GetAxis("Vertical");
+
+        Vector3 vec = new Vector3(xinput, yinput, 0);
+        transform.Translate(vec * speed * Time.deltaTime);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("PowerUp"))
+        {
+            
+            Destroy(PowerUp);
+            speed = speed + 5;
+            StartCoroutine(IncreaseSpeedAndDelay());
+            
+
+        }
+
+       
+    }
+    IEnumerator IncreaseSpeedAndDelay()
+    {
+        yield return new WaitForSeconds(changeDuration);
+        speed = speed - 5;
+    }
+
+
+
+
+}
